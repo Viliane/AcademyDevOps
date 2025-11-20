@@ -104,3 +104,18 @@ jobs:
             VALIDATE_CSHARP: "true"
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       if: github.ref != 'refs/heads/master'  
+
+  dependency-check:
+    name: Dependency Check
+    needs: versionamento
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: always
+    if: github.ref != 'refs/heads/master'
