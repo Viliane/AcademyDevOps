@@ -56,6 +56,8 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.x'
+          cache: true
+          cache-dependency-path: '**/*.csproj'
 
       - name: Build
         run: |
