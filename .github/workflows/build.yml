@@ -43,6 +43,7 @@ jobs:
         if: github.ref == 'refs/heads/master'
 
   build:
+    needs: versionamento
     runs-on: ubuntu-latest
     name: Build Project
 
@@ -59,7 +60,21 @@ jobs:
           cache: true
           cache-dependency-path: '**/*.csproj'
 
-      - name: Build
+      - name: Restore
         run: |
-            dotnet restore ./AcademyDevOps.sln
+            dotnet restore ./AcademyDevOps.sln            
+
+      - name: Build
+        run: |            
             dotnet build --no-restore ./AcademyDevOps.sln
+
+      - name: Test
+        run: |            
+            dotnet test --no-build --no-restore ./AcademyDevOps.sln --configuration Release --logger trx --results-directory "TestResults"
+        if: github.ref != 'refs/heads/master'
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: dotnet-test-results
+          path: TestResults
+        if: github.ref != 'refs/heads/master'
