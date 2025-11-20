@@ -1,5 +1,7 @@
 name: Build Project
 
+permissions:
+  contents: write
 on:
   push:
     branches:
@@ -19,8 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.head_ref }}  
-          fetch-depth: 0  
+          persist-credentials: true
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
 
       - uses: codacy/git-version@2.8.6   
         id: version     
@@ -46,6 +49,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
+        with:
+          persist-credentials: true
 
       - name: Setup .Net Core
         uses: actions/setup-dotnet@v5
