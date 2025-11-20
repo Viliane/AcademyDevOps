@@ -42,7 +42,7 @@ jobs:
           git push --tags
         if: github.ref == 'refs/heads/master'
 
-  build:
+  backend-build-and-test:
     needs: versionamento
     runs-on: ubuntu-latest
     name: Build Project
@@ -78,3 +78,25 @@ jobs:
           name: dotnet-test-results
           path: TestResults
         if: github.ref != 'refs/heads/master'
+
+  backend-lint:
+      needs: versionamento
+      runs-on: ubuntu-latest
+      name: Backend Lint
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v5
+          with:
+            # super-linter needs the full git history to get the
+            # list of files that changed across commits
+            fetch-depth: 0
+
+        - uses: github/super-linter@v6
+          env:
+            DEFAULT_BRANCH: "master"
+            VALIDATE_ALL_CODEBASE: "false"
+            VALIDATE_YAML: "true"
+            VALIDATE_CSHARP: "true"
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      if: github.ref != 'refs/heads/master'  
