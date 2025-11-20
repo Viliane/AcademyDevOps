@@ -1,3 +1,5 @@
+[![Build Project](https://github.com/Viliane/AcademyDevOps/actions/workflows/build.yml/badge.svg)](https://github.com/Viliane/AcademyDevOps/actions/workflows/build.yml)
+
 ## 🏦 AcademyIO – Plataforma de Educação Online
 
 Bem-vindo ao **AcademyDevOps**, um projeto desenvolvido no **MBA DevXpert Full Stack .NET** (Módulo 5) com foco em arquitetura moderna, escalabilidade e boas práticas de desenvolvimento.  
