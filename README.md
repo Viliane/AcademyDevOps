@@ -1,13 +1,13 @@
 ## 🏦 AcademyIO – Plataforma de Educação Online
 
-Bem-vindo ao **AcademyIO**, um projeto desenvolvido no **MBA DevXpert Full Stack .NET** (Módulo 4) com foco em arquitetura moderna, escalabilidade e boas práticas de desenvolvimento.  
-O AcademyIO é uma plataforma de ensino digital que permite aos usuários gerenciar cursos, matrículas, pagamentos e certificados por meio de uma **API RESTful robusta, segura e bem documentada**.
+Bem-vindo ao **AcademyDevOps**, um projeto desenvolvido no **MBA DevXpert Full Stack .NET** (Módulo 5) com foco em arquitetura moderna, escalabilidade e boas práticas de desenvolvimento.  
+O AcademyDevOps é uma plataforma de ensino digital que permite aos usuários gerenciar cursos, matrículas, pagamentos e certificados por meio de uma **API RESTful robusta, segura e bem documentada**.
 
 ---
 
 ### 🚀 Sobre o Projeto
 
-Construído com uma abordagem baseada em microsserviços e princípios de **Domain-Driven Design (DDD)**, o AcademyIO oferece uma experiência integrada e segura para alunos e administradores, com funcionalidades como:
+Construído com uma abordagem baseada em microsserviços e princípios de **Domain-Driven Design (DDD)**, o AcademyDevOps oferece uma experiência integrada e segura para alunos e administradores, com funcionalidades como:
 
 - 📚 **Cadastro e gestão de cursos**
 - 💳 **Processamento de pagamentos e faturamento**
@@ -19,11 +19,6 @@ Construído com uma abordagem baseada em microsserviços e princípios de **Doma
 
 ### 👥 Equipe de Desenvolvimento
 
-- Fabiano Marcolin Maciel
-- Breno Francisco Morais
-- Caio Gustavo Rodrigues
-- Luis Felipe da Silva Sousa
-- Thiago Albuquerque Severo
 - Viliane Oliveira
 
 ---
@@ -38,6 +33,9 @@ Construído com uma abordagem baseada em microsserviços e princípios de **Doma
 - SQL Server / SQLite
 - ASP.NET Core Identity + JWT
 - RabbitMQ (comunicação assíncrona via message bus)
+- GitActions
+- Docker
+- Kubertenes
 
 **Documentação:**
 
@@ -68,10 +66,6 @@ academyio/
 │   │   │   └── 📁 AcademyIO.Payments.API/ # 💳 Processamento de pagamentos
 │   │   └── 📁 Students/
 │   │       └── 📁 AcademyIO.Students.API/ # 👥 Gestão de alunos e matrículas
-│   │
-│   ├── 📁 Tests/                           # 🧪 Projetos de testes automatizados
-│   │
-│   └── 📁 Web/                             # 🌐 Aplicação frontend (Angular)
 │
 ├── 📄 README.md                            # 📖 Documentação principal
 ├── 📄 FEEDBACK.md                          # 💬 Feedback do instrutor
@@ -165,22 +159,6 @@ Ambas as abordagens exigem que:
 - O **banco de dados** esteja configurado corretamente (SQL Server ou SQLite).
 - O **RabbitMQ** esteja em execução (caso utilize funcionalidades baseadas em mensageria).
 
-#### 5️⃣ Execute o Frontend (Angular) Terminal
-
-Pasta do Projeto:
-```
-cd src/Front-End
-```
-
-Instalar Dependências:
-```
-npm install --legacy-peer-deps
-```
-
-Inicializar Aplicação:
-```
-npm start
-```
 
 A aplicação frontend estará disponível em:  
 🌐 [http://localhost:4200](http://localhost:4200/)
