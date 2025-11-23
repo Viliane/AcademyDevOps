@@ -28,7 +28,7 @@ services:
       dockerfile: ./services/AcademyIO.Auth.API/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: academyio.auth.api:${IMAGE_TAG:-latest}
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/academyio.auth.api:${IMAGE_TAG:-latest}
     ports:
       - "5077:5077"
     environment:
@@ -44,7 +44,7 @@ services:
       dockerfile: ./services/AcademyIO.Courses.API/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: academyio.cursos.api:${IMAGE_TAG:-latest}
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/academyio.cursos.api:${IMAGE_TAG:-latest}
     ports:
       - "5078:5078"
     environment:
@@ -60,7 +60,7 @@ services:
       dockerfile: ./services/AcademyIO.Students.API/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: academyio.estudantes.api:${IMAGE_TAG:-latest}
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/academyio.estudantes.api:${IMAGE_TAG:-latest}
     ports:
       - "5275:5275"
     environment:
@@ -76,7 +76,7 @@ services:
       dockerfile: ./services/AcademyIO.Payments.API/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: academyio.pagamentos.api:${IMAGE_TAG:-latest}
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/academyio.pagamentos.api:${IMAGE_TAG:-latest}
     ports:
       - "5272:5272"
     environment:
@@ -92,7 +92,7 @@ services:
       dockerfile: ./api-gateways/AcademyIO.Bff/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: academyio.bff.api:${IMAGE_TAG:-latest}
+    image: ${{ secrets.DOCKERHUB_USERNAME }}/academyio.bff.api:${IMAGE_TAG:-latest}
     ports:
       - "5018:5018"
     environment:
