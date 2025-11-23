@@ -28,11 +28,14 @@ namespace AcademyIO.Auth.API.Configuration
 
         public static IApplicationBuilder UseApiConfiguration(this WebApplication app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI();
+            //}
+
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             // Under certain scenarios, e.g. minikube / linux environment / behind load balancer
             // https redirection could lead dev's to overcomplicated configuration for testing purposes

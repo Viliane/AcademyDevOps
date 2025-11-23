@@ -1,0 +1,106 @@
+services:
+  rabbitmq:
+        image: rabbitmq:3-management
+        container_name: rabbit-academyIO
+        environment:
+            RABBITMQ_DEFAULT_USER: "guest"
+            RABBITMQ_DEFAULT_PASS: "guest"
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+
+  # sql-server-identidade:
+  #   image: sql-server-identidade:latest
+  #   container_name: sql-server-academyio-identidade
+  #   build:
+  #     context: ../sql
+  #     dockerfile: ./SQLAuth/Dockerfile
+  #   ports:
+  #     - "1433:1433"
+  #   environment:
+  #     SA_PASSWORD: "MeuDB@123"
+  #     ACCEPT_EULA: "Y"
+    
+  api-identidade:    
+    container_name: academyio-auth-api
+    build:
+      context: ../src
+      dockerfile: ./services/AcademyIO.Auth.API/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: academyio.auth.api:${IMAGE_TAG:-latest}
+    ports:
+      - "5077:5077"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5077
+    depends_on:
+      - rabbitmq
+
+  api-cursos:    
+    container_name: academyio-cursos-api
+    build:
+      context: ../src
+      dockerfile: ./services/AcademyIO.Courses.API/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: academyio.cursos.api:${IMAGE_TAG:-latest}
+    ports:
+      - "5078:5078"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5078
+    depends_on:
+      - rabbitmq
+
+  api-estudantes:
+    container_name: academyio-estudantes-api
+    build:
+      context: ../src
+      dockerfile: ./services/AcademyIO.Students.API/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: academyio.estudantes.api:${IMAGE_TAG:-latest}
+    ports:
+      - "5275:5275"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5275
+    depends_on:
+      - rabbitmq
+
+  api-pagamentos:    
+    container_name: academyio-pagamentos-api
+    build:
+      context: ../src
+      dockerfile: ./services/AcademyIO.Payments.API/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: academyio.pagamentos.api:${IMAGE_TAG:-latest}
+    ports:
+      - "5272:5272"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5272
+    depends_on:
+      - rabbitmq
+
+  api-bff:    
+    container_name: academyio-bff-api
+    build:
+      context: ../src
+      dockerfile: ./api-gateways/AcademyIO.Bff/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: academyio.bff.api:${IMAGE_TAG:-latest}
+    ports:
+      - "5018:5018"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:5018
+    depends_on:
+      - api-cursos
+      - api-estudantes
+      - api-pagamentos
+
+  
