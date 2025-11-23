@@ -83,20 +83,19 @@ academyio/
 - [.NET SDK 8.0 ou superior](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [SQL Server ou SQLite](https://www.sqlite.org/index.html)
 - [Git](https://git-scm.com/)
-- [Node.js (v18 ou superior)](https://nodejs.org/) — necessário para o frontend Angular
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (com WSL2 habilitado, se estiver no Windows) — necessário para o RabbitMQ e Portainer
 ### 💻 Passos para Execução
 
 #### 1️⃣ Clone o Repositório
 
 ```
-git clone https://github.com/ProfinProject/AcademyIO.git
+git clone https://github.com/Viliane/AcademyDevOps.git
 ```
 
 #### 2️⃣ Configure o Banco de Dados
 
 - Acesse os arquivos `appsettings.json` dos microsserviços (`Auth`, `Courses`, `Payments`, `Students`) e do `BFF`.
-- Defina a string de conexão para **SQL Server** ou **SQLite**, conforme sua preferência.
+- Defina a string de conexão para **SQL Server**, conforme sua preferência.
 - Ao executar o projeto pela primeira vez, o **Entity Framework Core** aplicará as migrações e executará o **Seed** automaticamente.
 #### 3️⃣ Suba os Serviços de Mensageria (RabbitMQ)
 
@@ -112,58 +111,11 @@ _(Opcional)_ Se quiser gerenciar os containers visualmente.
 🔌 Conexão AMQP (aplicação): amqp://guest:guest@localhost:5672/
 ### 4️⃣ Execute as APIs (.NET 8.0)
 O projeto é composto por vários microsserviços e um **BFF (Backend for Frontend)**. Você pode executá-los de duas formas:
-
-#### 🖥️ **Opção 1: Via Visual Studio (Múltiplos Projetos de Inicialização)**
-
-1. Abra a solução `AcademyIO.sln` no **Visual Studio 2022**.
-2. Clique com o botão direito na solução no **Solution Explorer** e selecione **Propriedades**.
-3. Em **Common Properties > Startup Project**, escolha **Multiple startup projects**.
-4. Defina a ação **Start** para os seguintes projetos:
-	- `AcademyIO.Auth.API`
-	- `AcademyIO.Courses.API`
-	- `AcademyIO.Payments.API`
-	- `AcademyIO.Students.API`
-	- `AcademyIO.Bff`
-5. Clique em **OK** e pressione **F5** ou o botão **Iniciar**.
-
-⚠️ Certifique-se de que o **RabbitMQ** está rodando (veja seção 3 — Mensageria).
-
-A documentação Swagger estará disponível em:  
-🔗 [http://localhost:5005/swagger](http://localhost:5005/swagger)
-
-#### 💻 **Opção 2: Via CLI (Command Line Interface)**
-
-Se preferir rodar os serviços manualmente pelo terminal (útil em ambientes sem Visual Studio ou em Linux/macOS/WSL), siga os passos:
-
-1. Abra um terminal na raiz do projeto (`AcademyIO`).
-2.  Execute **cada microsserviço em um terminal separado** com os comandos abaixo:
-
-⚠️ Executar um comando por Terminal
-
-```
-# Serviço de Autenticação
-dotnet run --project src/Services/AcademyIO.Auth.API/AcademyIO.Auth.API.csproj
-
-# Serviço de Cursos
-dotnet run --project src/services/AcademyIO.Courses.API/AcademyIO.Courses.API.csproj
-
-# Serviço de Pagamentos
-dotnet run --project src/Services/AcademyIO.Payments.API/AcademyIO.Payments.API.csproj
-
-# Serviço de Alunos
-dotnet run --project src/Services/AcademyIO.Students.API/AcademyIO.Students.API.csproj
-
-# API Gateway (BFF)
-dotnet run  --project src/api-gateways/AcademyIO.Bff/AcademyIO.Bff.csproj
 ```
 
 Ambas as abordagens exigem que:
-- O **banco de dados** esteja configurado corretamente (SQL Server ou SQLite).
+- O **banco de dados** esteja configurado corretamente (SQL Server).
 - O **RabbitMQ** esteja em execução (caso utilize funcionalidades baseadas em mensageria).
-
-
-A aplicação frontend estará disponível em:  
-🌐 [http://localhost:4200](http://localhost:4200/)
 
 ## 👥 Credenciais de Acesso
 
