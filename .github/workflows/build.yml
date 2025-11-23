@@ -186,5 +186,6 @@ jobs:
       - name: Push images
         env:
           IMAGE_TAG: ${{ needs.versionamento.outputs.version }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           docker compose -f docker/academy_production.yml push
