@@ -9,17 +9,19 @@ services:
             - "5672:5672"
             - "15672:15672"
 
-  # sql-server-identidade:
-  #   image: sql-server-identidade:latest
-  #   container_name: sql-server-academyio-identidade
-  #   build:
-  #     context: ../sql
-  #     dockerfile: ./SQLAuth/Dockerfile
-  #   ports:
-  #     - "1433:1433"
-  #   environment:
-  #     SA_PASSWORD: "MeuDB@123"
-  #     ACCEPT_EULA: "Y"
+  sql-server-identidade:    
+    container_name: sql-server-academyio-identidade
+    build:
+      context: ../sql
+      dockerfile: ./SQLAuth/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: ${DOCKERHUB_USERNAME}/academyio.sqlserver.identidade:${IMAGE_TAG:-latest}
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "MeuDB@123"
+      ACCEPT_EULA: "Y"
     
   api-identidade:    
     container_name: academyio-auth-api
@@ -28,7 +30,7 @@ services:
       dockerfile: ./services/AcademyIO.Auth.API/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: ${DOCKERHUB_USERNAME}/academyio.auth.api:${IMAGE_TAG:-latest}
+      image: ${DOCKERHUB_USERNAME}/academyio.auth.api:${IMAGE_TAG:-latest}    
     ports:
       - "5077:5077"
     environment:
@@ -36,6 +38,7 @@ services:
       - ASPNETCORE_URLS=http://+:5077
     depends_on:
       - rabbitmq
+      - sql-server-identidade
 
   api-cursos:    
     container_name: academyio-cursos-api
