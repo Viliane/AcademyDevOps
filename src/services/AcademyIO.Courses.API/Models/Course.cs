@@ -10,7 +10,7 @@ namespace AcademyIO.Courses.API.Models
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         private readonly List<Lesson> _lessons;
         public IReadOnlyCollection<Lesson> Lessons => _lessons;
