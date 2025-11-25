@@ -16,7 +16,7 @@ services:
       dockerfile: ./SQLAuth/Dockerfile
       args:
         VERSION: ${IMAGE_TAG:-latest}
-    image: ${DOCKERHUB_USERNAME}/academyio.sqlserver.identidade:${IMAGE_TAG:-latest}
+      image: ${DOCKERHUB_USERNAME}/academyio.sqlserver.identidade:${IMAGE_TAG:-latest}
     ports:
       - "1433:1433"
     environment:
