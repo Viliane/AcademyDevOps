@@ -9,12 +9,14 @@ services:
             - "5672:5672"
             - "15672:15672"
 
-  sql-server-identidade:
-    image: sql-server-identidade:latest
+  sql-server-identidade:    
     container_name: sql-server-academyio-identidade
     build:
       context: ../sql
       dockerfile: ./SQLAuth/Dockerfile
+      args:
+        VERSION: ${IMAGE_TAG:-latest}
+    image: ${DOCKERHUB_USERNAME}/academyio.sqlserver.identidade:${IMAGE_TAG:-latest}
     ports:
       - "1433:1433"
     environment:
