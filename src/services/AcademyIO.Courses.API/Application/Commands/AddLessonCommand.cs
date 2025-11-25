@@ -8,9 +8,9 @@ namespace AcademyIO.Courses.API.Application.Commands
         public string Name { get; set; }
         public string Subject { get; set; }
         public Guid CourseId { get; set; }
-        public double TotalHours { get; set; }
+        public decimal TotalHours { get; set; }
 
-        public AddLessonCommand(string name, string subject, Guid courseId, double totalHours)
+        public AddLessonCommand(string name, string subject, Guid courseId, decimal totalHours)
         {
             this.Name = name;
             this.Subject = subject;

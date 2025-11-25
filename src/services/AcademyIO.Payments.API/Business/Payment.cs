@@ -6,7 +6,7 @@ public class Payment : Entity, IAggregateRoot
 {
     public Guid CourseId { get; set; }
     public Guid StudentId { get; set; }
-    public double Value { get; set; }
+    public decimal Value { get; set; }
     public string CardName { get; set; }
     public string CardNumber { get; set; }
     public string CardExpirationDate { get; set; }

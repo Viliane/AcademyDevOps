@@ -9,9 +9,9 @@ namespace AcademyIO.Courses.API.Application.Commands
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid UserCreationId { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
-        public UpdateCourseCommand(string name, string description, Guid userCreationId, double price, Guid courseId)
+        public UpdateCourseCommand(string name, string description, Guid userCreationId, decimal price, Guid courseId)
         {
 
             this.Name = name;
