@@ -14,7 +14,7 @@ public class PayPalGateway : IPayPalGateway
         return new string([.. Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 10).Select(s => s[new Random().Next(s.Length)])]);
     }
 
-    public Transaction CommitTransaction(string cardHashKey, string orderId, double amount)
+    public Transaction CommitTransaction(string cardHashKey, string orderId, decimal amount)
     {
         var sucesso = true;
         return new Transaction
