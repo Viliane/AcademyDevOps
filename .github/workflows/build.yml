@@ -207,7 +207,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Ler versão (PowerShell)
-        shell: pwsh
+        # shell: pwsh
         run: |
           $IMAGE_TAG = Get-Content version.txt
           echo "Versão recebida: $IMAGE_TAG"
