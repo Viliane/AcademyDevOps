@@ -5,7 +5,7 @@ permissions:
 on:
   push:
     branches:
-      - master
+      - deploy-identidade
   pull_request:
     branches:
       - master
