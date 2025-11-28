@@ -199,3 +199,29 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         run: |
           docker compose -f docker/academy_production.yml push
+
+  deploy:
+    runs-on: self-hosted   # seu runner com Minikube instalado
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Ler versão (PowerShell)
+        shell: pwsh
+        run: |
+          $IMAGE_TAG = Get-Content version.txt
+          echo "Versão recebida: $IMAGE_TAG"
+
+      # - name: Aplicar Deployment e Service
+      #   run: |
+      #     kubectl apply -f docker/identidade_deployment.yaml
+      #     kubectl apply -f docker/serviceIdentidade.yaml
+
+      # - name: Esperar pods ficarem prontos
+      #   run: |
+      #     kubectl rollout status deployment/identidade-deployment
+
+      # - name: Testar serviço
+      #   run: |
+      #     minikube service identidade-service --url
+      #     curl $(minikube service identidade-service --url)
