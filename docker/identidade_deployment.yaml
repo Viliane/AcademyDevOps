@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: identidade-container
-        image: vilianeso/academyio.sqlserver.identidade:latest
+        image: vilianeso/academyio.auth.api:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5077
