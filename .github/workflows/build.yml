@@ -202,15 +202,22 @@ jobs:
 
   deploy:
     runs-on: self-hosted   # seu runner com Minikube instalado
+    needs: docker-build-images   # garante que só roda depois do build
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
 
+      - name: Download artifact versão
+        uses: actions/download-artifact@v4
+        with:
+          name: version
+      
       - name: Ler versão (PowerShell)
-        # shell: pwsh
+        shell: powershell
         run: |
           $IMAGE_TAG = Get-Content version.txt
-          echo "Versão recebida: $IMAGE_TAG"
+          Write-Output "Versão recebida: $IMAGE_TAG"
+
 
       # - name: Aplicar Deployment e Service
       #   run: |
