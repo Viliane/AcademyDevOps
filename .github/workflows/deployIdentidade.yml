@@ -18,12 +18,11 @@ jobs:
         with:
           name: version
 
-      - name: Ler versão
+      - name: Ler versão (PowerShell)
         shell: pwsh
         run: |
-          $IMAGE_TAG = Get-Content -Path "version.txt"
-          Add-Content -Path $env:GITHUB_ENV -Value "IMAGE_TAG=$IMAGE_TAG
-          Write-Output "Versão recebida: $IMAGE_TAG"
+          $IMAGE_TAG = Get-Content version.txt
+          echo "Versão recebida: $IMAGE_TAG"
 
       # - name: Aplicar Deployment e Service
       #   run: |
