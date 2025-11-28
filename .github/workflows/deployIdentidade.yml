@@ -13,16 +13,26 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
-      - name: Aplicar Deployment e Service
+      - uses: actions/download-artifact@v4
+        with:
+            name: version
+      - name: Ler versão
+        shell: pwsh
         run: |
-          kubectl apply -f docker/identidade_deployment.yaml
-          kubectl apply -f docker/serviceIdentidade.yaml
+          $IMAGE_TAG = Get-Content -Path "version.txt"
+          Add-Content -Path $env:GITHUB_ENV -Value "IMAGE_TAG=$IMAGE_TAG
+          Write-Output "Versão recebida: $IMAGE_TAG"
 
-      - name: Esperar pods ficarem prontos
-        run: |
-          kubectl rollout status deployment/identidade-deployment
+      # - name: Aplicar Deployment e Service
+      #   run: |
+      #     kubectl apply -f docker/identidade_deployment.yaml
+      #     kubectl apply -f docker/serviceIdentidade.yaml
 
-      - name: Testar serviço
-        run: |
-          minikube service identidade-service --url
-          curl $(minikube service identidade-service --url)
+      # - name: Esperar pods ficarem prontos
+      #   run: |
+      #     kubectl rollout status deployment/identidade-deployment
+
+      # - name: Testar serviço
+      #   run: |
+      #     minikube service identidade-service --url
+      #     curl $(minikube service identidade-service --url)

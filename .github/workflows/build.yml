@@ -49,6 +49,13 @@ jobs:
           git push --tags
         if: github.ref == 'refs/heads/master'
 
+      - name: Salvar versão em artifact
+        run: echo "${{ steps.version.outputs.version }}" > version.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: version
+          path: version.txt
+
   backend-build-and-test:
     needs: versionamento
     runs-on: ubuntu-latest
