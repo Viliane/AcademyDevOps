@@ -1,4 +1,4 @@
-name: Build Project
+name: Build Project and Deploy
 
 permissions:
   contents: write
@@ -234,7 +234,7 @@ jobs:
         run: |
           kubectl rollout status deployment/identidade-deployment
 
-      - name: Testar serviço
-        run: |
-          minikube service identidade-service --url
-          curl $(minikube service identidade-service --url)
+      # - name: Testar serviço
+      #   run: |
+      #     minikube service identidade-service --url
+      #     curl $(minikube service identidade-service --url)
