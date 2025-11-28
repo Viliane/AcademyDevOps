@@ -217,18 +217,24 @@ jobs:
         run: |
           $IMAGE_TAG = Get-Content version.txt
           Write-Output "Versão recebida: $IMAGE_TAG"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $env:GITHUB_ENV
+
+      - name: Atualizar imagem no deployment.yaml
+        run: |
+          (Get-Content docker/identidade_deployment.yaml) -replace 'image: vilianeso/academyio.auth.api:latest', "image: vilianeso/academyio.auth.api:$env:IMAGE_TAG" | Set-Content docker/identidade_deployment.yaml
 
 
-      # - name: Aplicar Deployment e Service
-      #   run: |
-      #     kubectl apply -f docker/identidade_deployment.yaml
-      #     kubectl apply -f docker/serviceIdentidade.yaml
 
-      # - name: Esperar pods ficarem prontos
-      #   run: |
-      #     kubectl rollout status deployment/identidade-deployment
+      - name: Aplicar Deployment e Service
+        run: |
+          kubectl apply -f docker/identidade_deployment.yaml
+          kubectl apply -f docker/serviceIdentidade.yaml
 
-      # - name: Testar serviço
-      #   run: |
-      #     minikube service identidade-service --url
-      #     curl $(minikube service identidade-service --url)
+      - name: Esperar pods ficarem prontos
+        run: |
+          kubectl rollout status deployment/identidade-deployment
+
+      - name: Testar serviço
+        run: |
+          minikube service identidade-service --url
+          curl $(minikube service identidade-service --url)
