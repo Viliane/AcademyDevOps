@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identidade-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identidade
+  template:
+    metadata:
+      labels:
+        app: identidade
+    spec:
+      containers:
+      - name: identidade-container
+        image: vilianeso/academyio.sqlserver.identidade:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5077
