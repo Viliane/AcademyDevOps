@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: identidade-service
 spec:
-  type: LoadBalancer   # <- muda de NodePort para LoadBalancer
+  type: NodePort
   selector:
     app: identidade    # precisa bater com o label do seu Deployment
-  ports:
-    - protocol: TCP
-      port: 80         # porta interna do serviço
-      targetPort: 80   # porta do container
+  ports:    
+      - port: 80         # porta interna do serviço
+        targetPort: 80   # porta do container
+        nodePort: 30080  # porta exposta no nó do cluster
