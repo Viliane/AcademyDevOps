@@ -234,7 +234,7 @@ jobs:
         run: |
           kubectl rollout status deployment/identidade-deployment
 
-      # - name: Testar serviço
-      #   run: |
-      #     minikube service identidade-service --url
-      #     curl $(minikube service identidade-service --url)
+      - name: Testar serviço9
+        run: |
+          minikube service identidade-service --url
+          curl $(minikube service identidade-service --url)
