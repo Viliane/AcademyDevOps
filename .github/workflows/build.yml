@@ -254,7 +254,6 @@ jobs:
       - name: Testar serviço com port-forward, retry, log e validação de conteúdo
         shell: powershell
         run: |
-          # Inicia o port-forward em um processo separado
           $pf = Start-Process -FilePath "kubectl" -ArgumentList "port-forward service/identidade-service 5077:5077" -NoNewWindow -PassThru
           Start-Sleep -Seconds 5
 
@@ -265,7 +264,7 @@ jobs:
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
               $response = Invoke-WebRequest -Uri "http://localhost:5077" -UseBasicParsing -TimeoutSec 10
-              Write-Output "Tentativa $i: Status Code $($response.StatusCode)"
+              Write-Output ("Tentativa {0}: Status Code {1}" -f $i, $response.StatusCode)
               
               if ($response.StatusCode -eq 200) {
                 Write-Output "API respondeu corretamente ✅"
@@ -281,12 +280,11 @@ jobs:
                 }
               }
             } catch {
-              Write-Output "Tentativa $i falhou: $($_.Exception.Message)"
+              Write-Output ("Tentativa {0} falhou: {1}" -f $i, $_.Exception.Message)
               Start-Sleep -Seconds 5
             }
           }
 
-          # Encerra o processo de port-forward
           if ($pf -and !$pf.HasExited) {
             Stop-Process -Id $pf.Id -Force
             Write-Output "Port-forward encerrado."
