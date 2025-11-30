@@ -3,6 +3,9 @@ using AcademyIO.WebAPI.Core.Configuration;
 using AcademyIO.WebAPI.Core.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
+// Força o Kestrel a ouvir na porta 5077
+builder.WebHost.UseUrls("http://+:5077");
+
 
 builder.Services.AddLogger(builder.Configuration);
 
