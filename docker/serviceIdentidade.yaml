@@ -2,11 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: identidade-service
-spec:
-  type: NodePort
+spec:  
   selector:
-    app: identidade    # precisa bater com o label do seu Deployment
-  ports:    
-      - port: 80         # porta interna do serviço
-        targetPort: 80   # porta do container
-        nodePort: 30080  # porta exposta no nó do cluster
+    app: identidade    
+  ports:  
+      - protocol: TCP  
+        port: 5077         # porta interna do serviço
+        targetPort: 5077   # porta do container
+  type: NodePort

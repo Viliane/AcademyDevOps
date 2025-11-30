@@ -1,7 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: identidade-deployment
+  name: identidade
+  labels:
+    app: identidade
 spec:
   replicas: 1
   selector:
@@ -14,7 +16,10 @@ spec:
     spec:
       containers:
       - name: identidade-container
-        image: vilianeso/academyio.auth.api:latest
-        imagePullPolicy: IfNotPresent
+        image: vilianeso/academyio.auth.api:latest        
         ports:
         - containerPort: 5077
+        resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

@@ -223,7 +223,10 @@ jobs:
         run: |
           (Get-Content docker/identidade_deployment.yaml) -replace 'image: vilianeso/academyio.auth.api:latest', "image: vilianeso/academyio.auth.api:$env:IMAGE_TAG" | Set-Content docker/identidade_deployment.yaml
 
-
+      - name: Configurar kubectl
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
 
       - name: Aplicar Deployment e Service
         run: |
