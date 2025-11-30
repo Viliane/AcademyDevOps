@@ -263,7 +263,7 @@ jobs:
 
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
-              $response = Invoke-WebRequest -Uri "http://localhost:5077" -UseBasicParsing -TimeoutSec 10
+              $response = Invoke-WebRequest -Uri "http://localhost:5077/swagger/index.html" -UseBasicParsing -TimeoutSec 10
               Write-Output ("Tentativa {0}: Status Code {1}" -f $i, $response.StatusCode)
               
               if ($response.StatusCode -eq 200) {
