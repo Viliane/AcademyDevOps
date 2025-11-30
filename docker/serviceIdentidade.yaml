@@ -9,4 +9,5 @@ spec:
       - protocol: TCP  
         port: 5077         # porta interna do serviço
         targetPort: 5077   # porta do container
+        nodePort: 30077   # Porta fixa para acesso externo
   type: NodePort

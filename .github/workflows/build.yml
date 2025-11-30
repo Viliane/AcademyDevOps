@@ -239,7 +239,14 @@ jobs:
         run: |
           kubectl rollout status deployment/identidade-deployment
 
+      # - name: Testar serviço
+      #   run: |
+      #     minikube service identidade-service --url
+      #     curl $(minikube service identidade-service --url)
+
       - name: Testar serviço
+        shell: powershell
         run: |
-          minikube service identidade-service --url
-          curl $(minikube service identidade-service --url)
+          $IP = minikube ip
+          Write-Output "Minikube IP: $IP"
+          curl "http://$IP:30077"
