@@ -244,9 +244,19 @@ jobs:
       #     minikube service identidade-service --url
       #     curl $(minikube service identidade-service --url)
 
-      - name: Testar serviço
+      # - name: Testar serviço
+      #   shell: powershell
+      #   run: |
+      #     $IP = minikube ip
+      #     Write-Output "Minikube IP: $IP"
+      #     Invoke-WebRequest -Uri ("http://{0}:30077" -f $IP)
+
+      - name: Testar serviço com port-forward
         shell: powershell
         run: |
-          $IP = minikube ip
-          Write-Output "Minikube IP: $IP"
-          Invoke-WebRequest -Uri ("http://{0}:30077" -f $IP)
+          Start-Job { kubectl port-forward service/identidade-service 5077:5077 }
+          Start-Sleep -Seconds 5
+          $response = Invoke-WebRequest -Uri "http://localhost:5077"
+          Write-Output "Status Code: $($response.StatusCode)"
+          Write-Output "Resposta: $($response.Content)"
+
