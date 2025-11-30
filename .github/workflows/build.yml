@@ -251,12 +251,38 @@ jobs:
       #     Write-Output "Minikube IP: $IP"
       #     Invoke-WebRequest -Uri ("http://{0}:30077" -f $IP)
 
-      - name: Testar serviço com port-forward
+      - name: Testar serviço com port-forward, retry e log detalhado
         shell: powershell
         run: |
+          # Abre o port-forward em background
           Start-Job { kubectl port-forward service/identidade-service 5077:5077 }
           Start-Sleep -Seconds 5
-          $response = Invoke-WebRequest -Uri "http://localhost:5077"
-          Write-Output "Status Code: $($response.StatusCode)"
-          Write-Output "Resposta: $($response.Content)"
+
+          $maxRetries = 5
+          $success = $false
+
+          for ($i = 1; $i -le $maxRetries; $i++) {
+            try {
+              $response = Invoke-WebRequest -Uri "http://localhost:5077" -UseBasicParsing -TimeoutSec 10
+              Write-Output "Tentativa $i: Status Code $($response.StatusCode)"
+              
+              if ($response.StatusCode -eq 200) {
+                Write-Output "API respondeu corretamente ✅"
+                Write-Output "Corpo da resposta:"
+                Write-Output $response.Content
+                $success = $true
+                break
+              }
+            } catch {
+              Write-Output "Tentativa $i falhou: $($_.Exception.Message)"
+              Start-Sleep -Seconds 5
+            }
+          }
+
+          if (-not $success) {
+            Write-Error "Deploy falhou: API não respondeu com 200 após $maxRetries tentativas"
+            exit 1
+          }
+
+
 
