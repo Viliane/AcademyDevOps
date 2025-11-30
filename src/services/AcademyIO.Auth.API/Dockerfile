@@ -16,7 +16,7 @@ COPY ["./building-blocks/AcademyIO.Core/AcademyIO.Core.csproj", "building-blocks
 COPY ["./building-blocks/AcademyIO.WebAPI.Core/AcademyIO.WebAPI.Core.csproj", "building-blocks/AcademyIO.WebAPI.Core/"]
 COPY ["./building-blocks/AcademyIO.MessageBus/AcademyIO.MessageBus.csproj", "building-blocks/AcademyIO.MessageBus/"]
 
-# Restaura depend�ncias
+# Restaura depend�ncias
 RUN dotnet restore "services/AcademyIO.Auth.API/AcademyIO.Auth.API.csproj"
 COPY . .
 WORKDIR "services/AcademyIO.Auth.API"
@@ -34,4 +34,9 @@ RUN dotnet publish "AcademyIO.Auth.API.csproj" -c Release -o /app/publish /p:Use
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Força a aplicação a ouvir na porta 5077
+ENV ASPNETCORE_URLS=http://+:5077
+EXPOSE 5077
+
 ENTRYPOINT ["dotnet", "AcademyIO.Auth.API.dll"]

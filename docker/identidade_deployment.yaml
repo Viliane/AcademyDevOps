@@ -19,6 +19,11 @@ spec:
         image: vilianeso/academyio.auth.api:latest        
         ports:
         - containerPort: 5077
+        env:
+          - name: ASPNETCORE_URLS
+            value: "http://+:5077"
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
         resources:
             limits:
               memory: "512Mi"
