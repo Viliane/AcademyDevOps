@@ -249,4 +249,4 @@ jobs:
         run: |
           $IP = minikube ip
           Write-Output "Minikube IP: $IP"
-          curl "http://$IP:30077"
+          Invoke-WebRequest -Uri ("http://{0}:30077" -f $IP)
