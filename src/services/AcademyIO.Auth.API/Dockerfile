@@ -3,8 +3,10 @@
 # --------------------------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+
+# Força a aplicação a ouvir na porta 5077
+ENV ASPNETCORE_URLS=http://+:5077
+EXPOSE 5077
 
 # --------------------------
 # 2. Build
@@ -34,9 +36,4 @@ RUN dotnet publish "AcademyIO.Auth.API.csproj" -c Release -o /app/publish /p:Use
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-
-# Força a aplicação a ouvir na porta 5077
-ENV ASPNETCORE_URLS=http://+:5077
-EXPOSE 5077
-
 ENTRYPOINT ["dotnet", "AcademyIO.Auth.API.dll"]
