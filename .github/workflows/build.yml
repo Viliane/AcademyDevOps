@@ -254,7 +254,7 @@ jobs:
       - name: Testar serviço com port-forward, retry, log e validação de conteúdo
         shell: powershell
         run: |
-          $pf = Start-Process -FilePath "kubectl" -ArgumentList "port-forward service/identidade-service 8085:5077" -NoNewWindow -PassThru
+          $pf = Start-Process -FilePath "kubectl" -ArgumentList "port-forward service/identidade-service 5077:5077" -NoNewWindow -PassThru
           Start-Sleep -Seconds 5
 
           $maxRetries = 5
@@ -263,7 +263,7 @@ jobs:
 
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
-              $response = Invoke-WebRequest -Uri "http://localhost:8085/swagger/index.html" -UseBasicParsing -TimeoutSec 10
+              $response = Invoke-WebRequest -Uri "http://localhost:5077/swagger/index.html" -UseBasicParsing -TimeoutSec 10
               Write-Output ("Tentativa {0}: Status Code {1}" -f $i, $response.StatusCode)
               
               if ($response.StatusCode -eq 200) {
