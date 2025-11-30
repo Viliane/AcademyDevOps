@@ -224,9 +224,12 @@ jobs:
           (Get-Content docker/identidade_deployment.yaml) -replace 'image: vilianeso/academyio.auth.api:latest', "image: vilianeso/academyio.auth.api:$env:IMAGE_TAG" | Set-Content docker/identidade_deployment.yaml
 
       - name: Configurar kubectl
+        shell: pwsh
         run: |
-          mkdir -p ~/.kube
-          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+          if (!(Test-Path "$env:USERPROFILE\.kube")) {
+            New-Item -ItemType Directory -Path "$env:USERPROFILE\.kube"
+          }
+          Set-Content -Path "$env:USERPROFILE\.kube\config" -Value "${{ secrets.KUBECONFIG }}"
 
       - name: Aplicar Deployment e Service
         run: |
