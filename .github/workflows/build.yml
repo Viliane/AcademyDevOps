@@ -251,15 +251,16 @@ jobs:
       #     Write-Output "Minikube IP: $IP"
       #     Invoke-WebRequest -Uri ("http://{0}:30077" -f $IP)
 
-      - name: Testar serviço com port-forward, retry e log detalhado
+      - name: Testar serviço com port-forward, retry, log e validação de conteúdo
         shell: powershell
         run: |
-          # Abre o port-forward em background
-          Start-Job { kubectl port-forward service/identidade-service 5077:5077 }
+          # Inicia o port-forward em um processo separado
+          $pf = Start-Process -FilePath "kubectl" -ArgumentList "port-forward service/identidade-service 5077:5077" -NoNewWindow -PassThru
           Start-Sleep -Seconds 5
 
           $maxRetries = 5
           $success = $false
+          $expectedText = "API OK"   # ajuste para o texto esperado da sua API
 
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
@@ -270,8 +271,14 @@ jobs:
                 Write-Output "API respondeu corretamente ✅"
                 Write-Output "Corpo da resposta:"
                 Write-Output $response.Content
-                $success = $true
-                break
+
+                if ($response.Content -match $expectedText) {
+                  Write-Output "Validação de conteúdo OK: resposta contém '$expectedText' ✅"
+                  $success = $true
+                  break
+                } else {
+                  Write-Output "Validação de conteúdo falhou: resposta não contém '$expectedText'"
+                }
               }
             } catch {
               Write-Output "Tentativa $i falhou: $($_.Exception.Message)"
@@ -279,10 +286,13 @@ jobs:
             }
           }
 
-          if (-not $success) {
-            Write-Error "Deploy falhou: API não respondeu com 200 após $maxRetries tentativas"
-            exit 1
+          # Encerra o processo de port-forward
+          if ($pf -and !$pf.HasExited) {
+            Stop-Process -Id $pf.Id -Force
+            Write-Output "Port-forward encerrado."
           }
 
-
-
+          if (-not $success) {
+            Write-Error "Deploy falhou: API não respondeu corretamente após $maxRetries tentativas"
+            exit 1
+          }
