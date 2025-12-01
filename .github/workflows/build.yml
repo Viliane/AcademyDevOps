@@ -254,9 +254,6 @@ jobs:
       - name: Testar API via port-forward dinâmico (deployment pod atualizado)
         shell: powershell
         run: |
-          # Aguarda o rollout do deployment terminar
-          kubectl rollout status deployment/identidade-deployment
-
           $maxRetries = 10
           $podName = $null
 
@@ -270,7 +267,7 @@ jobs:
               Write-Output "Pod selecionado: $podName"
               break
             } else {
-              Write-Output "Tentativa $i: nenhum pod 'identidade-deployment' pronto ainda, aguardando..."
+              Write-Output "Tentativa ${i}: nenhum pod 'identidade-deployment' pronto ainda, aguardando..."
               Start-Sleep -Seconds 10
             }
           }
@@ -291,7 +288,7 @@ jobs:
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
               $response = Invoke-WebRequest -Uri "http://localhost:5077/swagger/index.html" -UseBasicParsing -TimeoutSec 10
-              Write-Output ("Tentativa {0}: Status Code {1}" -f $i, $response.StatusCode)
+              Write-Output ("Tentativa ${i}: Status Code {0}" -f $response.StatusCode)
 
               if ($response.StatusCode -eq 200 -and $response.Content -match $expectedText) {
                 Write-Output "Validação OK: resposta contém '$expectedText' ✅"
@@ -301,19 +298,18 @@ jobs:
                 Write-Output "Validação falhou: resposta não contém '$expectedText'"
               }
             } catch {
-              Write-Output ("Tentativa {0} falhou: {1}" -f $i, $_.Exception.Message)
+              Write-Output ("Tentativa ${i} falhou: {0}" -f $_.Exception.Message)
               Start-Sleep -Seconds 5
             }
           }
 
           # Encerra o processo de port-forward
-          #if ($pf -and !$pf.HasExited) {
-          #  Stop-Process -Id $pf.Id -Force
-          #  Write-Output "Port-forward encerrado."
-          #}
+          if ($pf -and !$pf.HasExited) {
+            Stop-Process -Id $pf.Id -Force
+            Write-Output "Port-forward encerrado."
+          }
 
           if (-not $success) {
             Write-Error "Deploy falhou: API não respondeu corretamente após $maxRetries tentativas"
             exit 1
           }
-
