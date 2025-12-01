@@ -251,22 +251,24 @@ jobs:
       #     Write-Output "Minikube IP: $IP"
       #     Invoke-WebRequest -Uri ("http://{0}:30077" -f $IP)
 
-      - name: Testar API via port-forward dinâmico
+      - name: Testar API via port-forward dinâmico (deployment pod)
         shell: powershell
         run: |
-          # Obtém dinamicamente o nome do primeiro pod Running/Ready com label app=identidade
-          $podName = kubectl get pods -l app=identidade `
-            --field-selector=status.phase=Running `
-            -o jsonpath="{.items[0].metadata.name}"
+          # Busca todos os pods com label app=identidade
+          $allPods = kubectl get pods -l app=identidade -o jsonpath="{.items[*].metadata.name}" 
+          $podList = $allPods -split " "
+
+          # Filtra apenas os pods cujo nome começa com 'identidade-deployment'
+          $podName = $podList | Where-Object { $_ -like "identidade-deployment*" } | Select-Object -First 1
           Write-Output "Pod selecionado: $podName"
 
-          # Inicia o port-forward para o pod
+          # Inicia o port-forward para o pod selecionado
           $pf = Start-Process -FilePath "kubectl" -ArgumentList "port-forward pod/$podName 5077:5077" -NoNewWindow -PassThru
           Start-Sleep -Seconds 5
 
           $maxRetries = 5
           $success = $false
-          $expectedText = "Swagger UI"   # texto esperado no HTML do Swagger
+          $expectedText = "Swagger UI"
 
           for ($i = 1; $i -le $maxRetries; $i++) {
             try {
