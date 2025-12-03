@@ -394,7 +394,7 @@ jobs:
 
       - name: Atualizar imagem no deployment.yaml
         run: |
-          (Get-Content docker/sqlserver-identidade-deployment.yaml) -replace 'image: vilianeso/academyio.sqlserver.identidade:latest', "image: vilianeso/academyio.sqlserver.identidade:$env:IMAGE_TAG" | Set-Content docker/sqlserver-identidade-deployment.yaml
+          (Get-Content docker/sqlserver_identidade_deployment.yaml) -replace 'image: vilianeso/academyio.sqlserver.identidade:latest', "image: vilianeso/academyio.sqlserver.identidade:$env:IMAGE_TAG" | Set-Content docker/sqlserver_identidade_deployment.yaml
 
       - name: Verificar kubectl
         shell: powershell
