@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: estudante-deployment
+  labels:
+    app: estudante
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: estudante
+  template:
+    metadata:
+      labels:
+        app: estudante
+    spec:
+      containers:
+      - name: estudante-container
+        image: vilianeso/academyio.estudantes.api:latest        
+        ports:
+        - containerPort: 5275
+        env:
+          - name: ASPNETCORE_URLS
+            value: "http://+:5275"
+          - name: ASPNETCORE_ENVIRONMENT
+            value: "Production"
+        resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
