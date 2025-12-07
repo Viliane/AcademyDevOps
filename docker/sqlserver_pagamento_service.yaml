@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver-pagamento-service
+spec:
+  selector:
+    app: sqlserver-pagamento
+  ports:
+    - name: sqlserver
+      port: 1433
+      targetPort: 1433
+  type: ClusterIP

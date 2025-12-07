@@ -1,27 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: curso-deployment
+  name: pagamento-deployment
   labels:
-    app: curso
+    app: pagamento
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: curso
+      app: pagamento
   template:
     metadata:
       labels:
-        app: curso
+        app: pagamento
     spec:
       containers:
-      - name: cursos-container
-        image: vilianeso/academyio.cursos.api:latest        
+      - name: pagamento-container
+        image: vilianeso/academyio.pagamentos.api:latest        
         ports:
-        - containerPort: 5078
+        - containerPort: 5272
         env:
           - name: ASPNETCORE_URLS
-            value: "http://+:5078"
+            value: "http://+:5272"
           - name: ASPNETCORE_ENVIRONMENT
             value: "Production"
         resources:
