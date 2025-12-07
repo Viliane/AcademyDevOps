@@ -202,7 +202,7 @@ jobs:
 
   deploy-identidade:
     runs-on: self-hosted   # seu runner com Minikube instalado
-    needs: docker-build-images   # garante que só roda depois do build
+    needs: [docker-build-images, deploy-rabbitmq, deploy-sqlserver-identidade]   # garante que só roda depois do build
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
@@ -375,7 +375,7 @@ jobs:
 
   deploy-sqlserver-identidade:
     runs-on: self-hosted   # runner com Minikube
-    needs: docker-build-images
+    needs: [docker-build-images, deploy-rabbitmq]
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
@@ -443,7 +443,7 @@ jobs:
 
   deploy-sqlserver-estudantes:
     runs-on: self-hosted   # runner com Minikube
-    needs: docker-build-images
+    needs: [docker-build-images, deploy-rabbitmq]
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
@@ -511,7 +511,7 @@ jobs:
   
   deploy-estudante:
     runs-on: self-hosted   # seu runner com Minikube instalado
-    needs: docker-build-images   # garante que só roda depois do build
+    needs: [docker-build-images, deploy-rabbitmq, deploy-sqlserver-estudantes]   # garante que só roda depois do build
     steps:
       - name: Checkout código
         uses: actions/checkout@v4
