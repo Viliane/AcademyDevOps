@@ -3,8 +3,10 @@
 # --------------------------
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+
+# Força a aplicação a ouvir na porta 5078
+ENV ASPNETCORE_URLS=http://+:5078
+EXPOSE 5078
 
 # --------------------------
 # 2. Build
@@ -14,7 +16,7 @@ WORKDIR /src
 COPY ["./services/AcademyIO.Courses.API/AcademyIO.Courses.API.csproj", "services/AcademyIO.Courses.API/"]
 COPY ["./building-blocks/AcademyIO.WebAPI.Core/AcademyIO.WebAPI.Core.csproj", "building-blocks/AcademyIO.WebAPI.Core/"]
 
-# Restaura depend�ncias
+# Restaura depend�ncias
 RUN dotnet restore "services/AcademyIO.Courses.API/AcademyIO.Courses.API.csproj"
 COPY . .
 WORKDIR "services/AcademyIO.Courses.API"

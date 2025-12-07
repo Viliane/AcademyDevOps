@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: curso-service
+spec:  
+  selector:
+    app: curso    
+  ports:  
+      - protocol: TCP  
+        port: 5078         # porta interna do serviço
+        targetPort: 5078   # porta do container
+        nodePort: 30079   # Porta fixa para acesso externo
+  type: NodePort
